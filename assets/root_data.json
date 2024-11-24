@@ -1,5 +1,5 @@
 [
-    { "title": "ルートA", "description": "ルートAの詳細情報" },
-    { "title": "ルートB", "description": "ルートBの詳細情報" },
-    { "title": "ルートC", "description": "ルートCの詳細情報" }
-]  
+    { "title": "図書館", "description": "図書館の情報" },
+    { "title": "5号館", "description": "5号館の情報" },
+    { "title": "体育館", "description": "体育館の情報" }
+]
