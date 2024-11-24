@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'util.dart';
-import 'high_school_course_home.dart';
+import 'course_maker.dart';
 
 class CampusTourHome extends StatefulWidget {
   const CampusTourHome({super.key});
@@ -47,21 +47,21 @@ class _CampusTourHome extends State<CampusTourHome> {
                   label: "高校生：学校見学",
                   onPressed: () {
                     // 他の画面遷移（例: SchoolTourPage）
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const HighSchoolCourseHome()),
-                    );
+                    navigateToPage(context, 0);
                   },
                 ),
                 RoundedButton(
                   label: "新入生：情報科学科",
                   onPressed: () {
                     // 他の画面遷移
+                    navigateToPage(context, 1);
                   },
                 ),
                 RoundedButton(
                   label: "新入生：??学科",
-                  onPressed: () {},
+                  onPressed: () {
+                    navigateToPage(context, 2);
+                  },
                 ),
                 // 必要に応じてボタンを追加
               ],
@@ -85,4 +85,25 @@ class _CampusTourHome extends State<CampusTourHome> {
       ),
     );
   }
+}
+
+// データリスト
+final List<Map<String, String>> pages = [
+  {"title": "高校生：学校見学", "description": "学校見学の詳細ページ"},
+  {"title": "新入生：情報科学科", "description": "学校見学の詳細ページ"},
+  {"title": "新入生：??学科", "description": "学校見学の詳細ページ"},
+];
+
+// 任意のページに遷移する関数
+void navigateToPage(BuildContext context, int index) {
+  final page = pages[index]; // 指定したインデックスのページデータを取得
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => CourseMaker(
+        title: page["title"]!,
+        description: page["description"]!,
+      ),
+    ),
+  );
 }
