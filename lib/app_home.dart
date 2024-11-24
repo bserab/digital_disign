@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'campus_tour_home.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 //ホーム画面
 class AppHome extends StatefulWidget {
@@ -10,6 +11,11 @@ class AppHome extends StatefulWidget {
 }
 
 class _AppHomeState extends State<AppHome> {
+  late GoogleMapController mapController;
+  final LatLng _center = const LatLng(45.521563, -122.677433);
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
   int _selectedIndex = 0; // ナビゲーションバーの選択状態
 
   void _onItemTapped(int index) {
@@ -29,27 +35,33 @@ class _AppHomeState extends State<AppHome> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("マップ"),
-        centerTitle: true,
-      ),
-      body: Center(
-        //ここに表示したいものを書く
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: "マップ",
+    return MaterialApp(
+        home: Scaffold(
+        appBar: AppBar(
+          title: const Text("マップ"),
+          centerTitle: true,
+        ),
+        body: GoogleMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 11.0,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.flag),
-            label: "キャンパスツアー",
-          ),
-        ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.map),
+              label: "マップ",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.flag),
+              label: "キャンパスツアー",
+            ),
+          ],
+        ),
       ),
     );
   }
