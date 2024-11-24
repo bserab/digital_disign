@@ -2,10 +2,28 @@ import 'package:flutter/material.dart';
 import 'util.dart';
 import 'high_school_course_home.dart';
 
+class CampusTourHome extends StatefulWidget {
+  const CampusTourHome({super.key});
+  @override
+  _CampusTourHome createState() => _CampusTourHome();
+}
 
 //キャンパスツアーの属性選択画面
-class CampusTourHome extends StatelessWidget {
-  const CampusTourHome({super.key});
+class _CampusTourHome extends State<CampusTourHome> {
+  int _selectedIndex = 1; // 初期選択（キャンパスツアー）
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    // 画面遷移
+    if (index == 0) {
+      Navigator.pop(context);
+    } else if (index == 1) {
+      // 現在のページなので何もしない
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,18 +67,19 @@ class CampusTourHome extends StatelessWidget {
               ],
             ),
           ),
-          ElevatedButton(
-            onPressed: () {
-              // 親ページ（MapPage）に戻る
-              Navigator.pop(context);
-            },
-            style: ElevatedButton.styleFrom(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.zero, // 角丸なし
-              ),
-              minimumSize: const Size(double.infinity, 50), // 幅いっぱいのボタン
-            ),
-            child: const Text("マップに戻る"),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: "マップ検索",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.flag),
+            label: "キャンパスツアー",
           ),
         ],
       ),
