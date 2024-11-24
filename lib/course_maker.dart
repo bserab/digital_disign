@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'util.dart';
 import 'root_maker.dart';
 
 class CourseMaker extends StatefulWidget {
@@ -6,13 +8,13 @@ class CourseMaker extends StatefulWidget {
   final String description;
 
   const CourseMaker({required this.title, required this.description, Key? key}) : super(key: key);
-
   @override
   _CourseMaker createState() => _CourseMaker();
 }
 
 //キャンパスツアーの順番表示するページの親（仮）
 class _CourseMaker extends State<CourseMaker> {
+  
   int _selectedIndex = 1; // 初期選択（キャンパスツアー）
 
   void _onItemTapped(int index) {
@@ -47,6 +49,7 @@ class _CourseMaker extends State<CourseMaker> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title), // 状態ではなく初期値を表示
@@ -54,12 +57,37 @@ class _CourseMaker extends State<CourseMaker> {
       body: Center(
         child: Text(currentDescription),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // 丸ボタンが押されたときの処理
-          navigateToPage(context, 1);
-        },
-        child: const Icon(Icons.add), // ボタンの中のアイコン
+      floatingActionButton: Stack(
+        children: [
+          // RoundedButton を FloatingActionButton の横に配置
+          Positioned(
+            right: 80, // 右端からの距離を調整
+            bottom: 0, // 下端からの距離を調整
+            child: SizedBox(
+              width: size.width - 124, //ボタンの幅を指定
+              height: 73.0,
+              child: RoundedButton(
+                label: "ツアーを開始する",
+                onPressed: () {
+                  // 長方形ボタンが押されたときの処理
+                  updateDescription("ツアーが開始されました！");
+                },
+              ),
+            ),
+          ),
+          // FloatingActionButton を配置
+          Positioned(
+            right: 5,
+            bottom: 8,
+            child: FloatingActionButton(
+              onPressed: () {
+                // 丸ボタンが押されたときの処理
+                navigateToPage(context, 1);
+              },
+              child: const Icon(Icons.add), // ボタンの中のアイコン
+            ),
+          ),
+        ],  
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
@@ -67,7 +95,7 @@ class _CourseMaker extends State<CourseMaker> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
-            label: "マップ検索",
+            label: "マップ",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.flag),

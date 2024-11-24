@@ -75,7 +75,7 @@ class _CampusTourHome extends State<CampusTourHome> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
-            label: "マップ検索",
+            label: "マップ",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.flag),
