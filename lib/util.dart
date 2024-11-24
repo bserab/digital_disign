@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-//便利機能をいっぱい詰め込むクラス
+// 便利機能をいっぱい詰め込むクラス
 
-//角が丸の四角いボタンを表示するクラス
-//第一引数：表示する文字，第二引数：ボタン押された時のアクション
+// 角が丸の四角いボタンを表示するクラス
+// 第一引数：表示する文字，第二引数：ボタン押された時のアクション
 class RoundedButton extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
 
-  const RoundedButton({required this.label, required this.onPressed,super.key});
+  const RoundedButton({required this.label, required this.onPressed, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -52,3 +52,4 @@ class CircleButton extends StatelessWidget {
     );
   }
 }
+

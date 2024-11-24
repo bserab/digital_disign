@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'util.dart';
+import 'root_maker.dart';
 
 class CourseMaker extends StatefulWidget {
   final String title;
@@ -27,6 +29,7 @@ class _CourseMaker extends State<CourseMaker> {
       // 現在のページなので何もしない
     }
   }
+
   // 状態を保持する変数
   String currentDescription = "";
 
@@ -43,6 +46,7 @@ class _CourseMaker extends State<CourseMaker> {
       currentDescription = newDescription;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -78,12 +82,12 @@ class _CourseMaker extends State<CourseMaker> {
             child: FloatingActionButton(
               onPressed: () {
                 // 丸ボタンが押されたときの処理
-                updateDescription("新しい説明に更新されました！");
+                navigateToPage(context, 1);
               },
               child: const Icon(Icons.add), // ボタンの中のアイコン
             ),
           ),
-        ],
+        ],  
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
@@ -102,3 +106,25 @@ class _CourseMaker extends State<CourseMaker> {
     );
   }
 }
+
+final List<Map<String, String>> pages =[
+    { "title": "ルートA", "description": "ルートAの詳細情報" },
+    { "title": "ルートB", "description": "ルートBの詳細情報" },
+    { "title": "ルートC", "description": "ルートCの詳細情報" },
+];
+
+void navigateToPage(BuildContext context, int index) {
+  // 指定されたインデックスからページデータを取得
+  final page = pages[index];
+
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => RootMaker(
+        title: page["title"]!, // 取得したタイトルを渡す
+        description: page["description"]!, // 取得した説明を渡す
+      ),
+    ),
+  );
+}
+
