@@ -37,10 +37,6 @@ class _AppHomeState extends State<AppHome> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-        appBar: AppBar(
-          title: const Text("マップ"),
-          centerTitle: true,
-        ),
         body: GoogleMap(
           onMapCreated: _onMapCreated,
           initialCameraPosition: CameraPosition(
@@ -48,21 +44,59 @@ class _AppHomeState extends State<AppHome> {
             zoom: 11.0,
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.map),
-              label: "マップ",
+        bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min, // 必要最小限の高さに設定
+        children: [
+          // 検索ボックスの上に線
+          Container(
+            height: 2.0, // 線の高さ
+            color: Colors.black, // 線の色
+          ),
+          // 検索ボックス全体の背景色を白に
+          Container(
+            color: Colors.white, // 背景を白に設定
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                decoration: InputDecoration(
+                  labelText: '検索', // 検索と書かれたラベル
+                  fillColor: Colors.white, // 背景色を白に設定
+                  filled: true, // 背景を塗りつぶす
+                  border: OutlineInputBorder(), // ボーダーを追加
+                  contentPadding: EdgeInsets.symmetric(horizontal: 10.0), // 内側の余白
+                ),
+              ),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.flag),
-              label: "キャンパスツアー",
+          ),
+          // 検索ボックスとナビゲーションバーの間に線を追加
+          Container(
+            height: 2.0, // 線の高さ
+            color: Colors.black, // 線の色
+          ),
+          // ナビゲーションバー
+          Container(
+            height: 70.0, // 高さを変更
+            child: BottomNavigationBar(
+              currentIndex: _selectedIndex,
+              onTap: _onItemTapped,
+              selectedItemColor: const Color.fromRGBO(0, 98, 83, 1), // 選択時のアイコン色
+              unselectedItemColor: const Color.fromRGBO(75, 75, 75, 1), // 非選択時のアイコン色
+              backgroundColor: Colors.white,
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.map),
+                  label: "マップ",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.flag),
+                  label: "キャンパスツアー",
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
+    )
     );
   }
 }

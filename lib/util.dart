@@ -19,10 +19,21 @@ class RoundedButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20), // 角丸
+            side: const BorderSide(
+              color: Colors.black, // ボーダーの色を黒に設定
+              width: 2.0, // ボーダーの太さ
+            ),
           ),
           minimumSize: const Size(double.infinity, 50), // ボタンのサイズ
+          backgroundColor: const Color.fromRGBO(217, 242, 208, 1), // ボタンの背景色を変更
         ),
-        child: Text(label, style: const TextStyle(fontSize: 16)),
+        child: Text(
+          label,
+          style: const TextStyle(
+            fontSize: 16,
+            color: Colors.black, // テキスト色を黒に設定
+          ),
+        ),
       ),
     );
   }

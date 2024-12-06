@@ -28,58 +28,85 @@ class _CampusTourHome extends State<CampusTourHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("キャンパスツアー"),
-        centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          const SizedBox(height: 16), // 上部の余白
-          const Text(
-            "希望するツアーを選択してください。",
-            style: TextStyle(fontSize: 16),
+        title: const Text(
+          "キャンパスツアー",
+          style: TextStyle(
+            color: Color.fromRGBO(242, 242, 242, 1), // テキストの色を設定
           ),
-          const SizedBox(height: 16),
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              children: [
-                RoundedButton(
-                  label: "高校生：学校見学",
-                  onPressed: () {
-                    // 他の画面遷移（例: SchoolTourPage）
-                    navigateToPage(context, 0);
-                  },
+        ),
+        centerTitle: true,
+        backgroundColor: const Color.fromRGBO(0, 98, 83, 1), // AppBarの背景色を変更
+      ),
+      body: Container(
+        color: Colors.white, // 背景色を白に設定
+        child: Column(
+          children: [
+            const SizedBox(height: 16), // 上部の余白
+            const Text(
+              "希望するツアーを選択してください。",
+              style: TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                children: [
+                  RoundedButton(
+                    label: "高校生：学校見学",
+                    onPressed: () {
+                      // 他の画面遷移（例: SchoolTourPage）
+                      navigateToPage(context, 0);
+                    },
+                  ),
+                  RoundedButton(
+                    label: "新入生：情報科学科",
+                    onPressed: () {
+                      // 他の画面遷移
+                      navigateToPage(context, 1);
+                    },
+                  ),
+                  RoundedButton(
+                    label: "新入生：??学科",
+                    onPressed: () {
+                      navigateToPage(context, 2);
+                    },
+                  ),
+                  // 必要に応じてボタンを追加
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min, // 必要最小限の高さに設定
+        children: [
+          // ナビゲーションバーの上に線を追加
+          Container(
+            height: 2.0, // 線の高さ
+            color: Colors.black, // 線の色
+          ),
+          // ナビゲーションバー
+          Container(
+            height: 70.0, // ナビゲーションバーの高さを変更
+            color: Colors.white, // 背景色を白に設定
+            child: BottomNavigationBar(
+              currentIndex: _selectedIndex,
+              onTap: _onItemTapped,
+              selectedItemColor: const Color.fromRGBO(0, 98, 83, 1), // 選択時のアイコン色
+              unselectedItemColor: const Color.fromRGBO(75, 75, 75, 1), // 非選択時のアイコン色
+              backgroundColor: Colors.white, // ナビゲーションバーの背景を白に設定
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.map),
+                  label: "マップ",
                 ),
-                RoundedButton(
-                  label: "新入生：情報科学科",
-                  onPressed: () {
-                    // 他の画面遷移
-                    navigateToPage(context, 1);
-                  },
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.flag),
+                  label: "キャンパスツアー",
                 ),
-                RoundedButton(
-                  label: "新入生：??学科",
-                  onPressed: () {
-                    navigateToPage(context, 2);
-                  },
-                ),
-                // 必要に応じてボタンを追加
               ],
             ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: "マップ",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.flag),
-            label: "キャンパスツアー",
           ),
         ],
       ),
