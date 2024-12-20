@@ -10,7 +10,7 @@ import flutter_config
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
-    GMSServices.provideAPIKey("AIzaSyAZce-0fGnUlE5lgAUysm8p4vUSpE1aqrM")  // ここに直接 API キーを記述します
+    GMSServices.provideAPIKey("")  // ここに直接 API キーを記述します
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }
