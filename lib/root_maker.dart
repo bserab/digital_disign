@@ -71,9 +71,17 @@ class _RootMaker extends State<RootMaker> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+          "キャンパスツアー",
+          style: const TextStyle(
+            color: Color.fromRGBO(242, 242, 242, 1), // AppBarの文字色を変更
+          ),
+        ),
+        backgroundColor: const Color.fromRGBO(0, 98, 83, 1),
       ),
-      body: Column(
+body: Container(
+      color: Colors.white, // 背景色を白に設定
+      child: Column(
         children: [
           Expanded(
             flex: 1,
@@ -116,21 +124,39 @@ class _RootMaker extends State<RootMaker> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.of(context).popUntil((route) => route.isFirst);
-          }
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: "マップ",
+    ),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min, // 必要最小限の高さに設定
+        children: [
+          // ナビゲーションバーの上に黒い線を追加
+          Container(
+            height: 2.0, // 線の高さ
+            color: Colors.black, // 線の色
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.flag),
-            label: "キャンパスツアー",
+          // ナビゲーションバー
+          Container(
+            height: 70.0, // ナビゲーションバーの高さを設定
+            child: BottomNavigationBar(
+              currentIndex: 0,
+              onTap: (index) {
+                if (index == 0) {
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+                }
+              },
+              selectedItemColor: const Color.fromRGBO(0, 98, 83, 1), // 選択時のアイコン色
+              unselectedItemColor: const Color.fromRGBO(75, 75, 75, 1), // 非選択時のアイコン色
+              backgroundColor: Colors.white, // ナビゲーションバーの背景色
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.map),
+                  label: "マップ",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.flag),
+                  label: "キャンパスツアー",
+                ),
+              ],
+            ),
           ),
         ],
       ),

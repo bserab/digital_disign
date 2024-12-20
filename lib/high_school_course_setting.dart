@@ -8,8 +8,14 @@ class HighSchoolCourseSetting extends StatelessWidget {
     return Scaffold(
       //-----------------　ここタイトル -------------
       appBar: AppBar(
-        title: const Text("高校生:学校見学"),
-        centerTitle: true, 
+        title: const Text(
+          "高校生:学校見学",
+          style: TextStyle(
+            color: Color.fromRGBO(242, 242, 242, 1), // テキストの色を設定
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color.fromRGBO(0, 98, 83, 1), // AppBarの背景色を変更
       ),
       // -----------------------ここからヘッダー---------------
       body: Column(
