@@ -116,7 +116,7 @@ class _AppHomeState extends State<AppHome> {
           Polyline(
             polylineId: PolylineId('polyline_${feature['id']}'),
             points: points,
-            color: Colors.blue,N
+            color: Colors.blue,
             width: 5,
             zIndex: 0, // Polylineを背面に設定
           ),
@@ -155,14 +155,16 @@ class _AppHomeState extends State<AppHome> {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
         home: Scaffold(
         body: GoogleMap(
           onMapCreated: _onMapCreated,
+          mapType: MapType.hybrid,
+          markers: _markers..addAll(_currentLocationMarker != null ? {_currentLocationMarker!} : {}),
+          polylines: _polylines,
           initialCameraPosition: CameraPosition(
             target: _center,
-            zoom: 11.0,
+            zoom: 18.0,
           ),
         ),
         bottomNavigationBar: Column(
