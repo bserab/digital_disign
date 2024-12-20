@@ -116,7 +116,7 @@ class _AppHomeState extends State<AppHome> {
           Polyline(
             polylineId: PolylineId('polyline_${feature['id']}'),
             points: points,
-            color: Colors.blue,
+            color: Colors.blue,N
             width: 5,
             zIndex: 0, // Polylineを背面に設定
           ),
