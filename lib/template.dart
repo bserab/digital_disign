@@ -6,6 +6,7 @@ class NewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       //-----------------　ここタイトル -------------
       appBar: AppBar(
         title: const Text("画面タイトル"),

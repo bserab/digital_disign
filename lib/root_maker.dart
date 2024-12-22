@@ -70,6 +70,7 @@ class _RootMaker extends State<RootMaker> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text(
           "キャンパスツアー",

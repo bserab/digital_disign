@@ -1,7 +1,6 @@
 import Flutter
 import UIKit
 import GoogleMaps
-import flutter_config
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
@@ -10,7 +9,15 @@ import flutter_config
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
-    GMSServices.provideAPIKey("")  // ここに直接 API キーを記述します
+    
+    // info.plistからAPI_KEYを取得して設定
+    if let apiKey = Bundle.main.object(forInfoDictionaryKey: "API_KEY") as? String {
+      GMSServices.provideAPIKey(apiKey)
+      print("API Key loaded successfully: \(apiKey)") // デバッグ用
+    } else {
+      print("API Key not found in Info.plist")
+    }
+    
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }
