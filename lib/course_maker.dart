@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'util.dart';
 import 'root_maker.dart';
 
@@ -9,12 +8,11 @@ class CourseMaker extends StatefulWidget {
 
   const CourseMaker({required this.title, required this.description, Key? key}) : super(key: key);
   @override
-  _CourseMaker createState() => _CourseMaker();
+  _CourseMakerState createState() => _CourseMakerState();
 }
 
-//キャンパスツアーの順番表示するページの親（仮）
-class _CourseMaker extends State<CourseMaker> {
-  
+// キャンパスツアーの順番表示するページの親（仮）
+class _CourseMakerState extends State<CourseMaker> {
   int _selectedIndex = 1; // 初期選択（キャンパスツアー）
 
   void _onItemTapped(int index) {
@@ -51,6 +49,7 @@ class _CourseMaker extends State<CourseMaker> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text(
           "キャンパスツアー",
@@ -62,88 +61,89 @@ class _CourseMaker extends State<CourseMaker> {
         backgroundColor: const Color.fromRGBO(0, 98, 83, 1), // AppBarの背景色を変更
       ),
       body: Column(
-      children: [
-        // 少し下に移動させるための余白を追加
-        Container(
-          color: Colors.white,
-          height: 8.0,
-        ),
-        // AppBarの下に帯状のテキストを表示
-        Container(
-          width: double.infinity, // 横幅を画面全体に設定
-          color: const Color.fromRGBO(166, 202, 236, 1),
-          padding: const EdgeInsets.symmetric(vertical: 8.0), // 上下の余白
-          child: Text(
-            widget.title,
-            textAlign: TextAlign.center, // テキストを中央揃え
-            style: const TextStyle(
-              color: Colors.black, // テキストの色
-              fontSize: 18, // フォントサイズ
-              fontWeight: FontWeight.bold, // 太字
-            ),
-          ),
-        ),
-        Expanded(
-          child: Container(
-            color: Colors.white, // 画面全体の背景色を白に設定
-            child: Center(
-              child: Text(currentDescription),
-            ),
-          ),
-        ),
-      ],
-    ),
-      floatingActionButton: Stack(
         children: [
-          // RoundedButton を FloatingActionButton の横に配置
-          Positioned(
-            right: 80, // 右端からの距離を調整
-            bottom: 0, // 下端からの距離を調整
-            child: SizedBox(
-              width: size.width - 124, //ボタンの幅を指定
-              height: 73.0,
-              child: RoundedButton(
-                label: "ツアーを開始する",
-                onPressed: () {
-                  // 長方形ボタンが押されたときの処理
-                  updateDescription("ツアーが開始されました！");
-                },
+          // 少し下に移動させるための余白を追加
+          const SizedBox(height: 8.0),
+          // AppBarの下に帯状のテキストを表示
+          Container(
+            width: double.infinity, // 横幅を画面全体に設定
+            color: const Color.fromRGBO(166, 202, 236, 1),
+            padding: const EdgeInsets.symmetric(vertical: 8.0), // 上下の余白
+            child: Text(
+              widget.title,
+              textAlign: TextAlign.center, // テキストを中央揃え
+              style: const TextStyle(
+                color: Colors.black, // テキストの色
+                fontSize: 18, // フォントサイズ
+                fontWeight: FontWeight.bold, // 太字
               ),
             ),
           ),
-          // FloatingActionButton を配置
-          Positioned(
-            right: 5,
-            bottom: 8,
-            child: FloatingActionButton(
-              onPressed: () {
-                navigateToPage(context, 1);
-              },
-              backgroundColor: const Color.fromRGBO(217, 242, 208, 1), // 背景色
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100.0), // 丸い形
-                side: const BorderSide(
-                  color: Colors.black, // 黒い枠線
-                  width: 2.0,
-                ),
+          Expanded(
+            child: Container(
+              color: Colors.white, // 画面全体の背景色を白に設定
+              child: Center(
+                child: Text(currentDescription),
               ),
-              child: const Icon(Icons.add),
             ),
           ),
         ],
       ),
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min, // 必要最小限の高さに設定
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          // ナビゲーションバーの上に黒い線を追加
-          Container(
-            height: 2.0, // 線の高さ
-            color: Colors.black, // 線の色
+          // "ツアーを開始する" ボタン
+          SizedBox(
+            width: size.width * 0.7, // ボタンの幅を調整
+            height: 50.0,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0), // ボタンの角を丸く
+                ),
+                backgroundColor: const Color.fromRGBO(0, 98, 83, 1), // ボタンの背景色
+              ),
+              onPressed: () {
+                updateDescription("ツアーが開始されました！");
+              },
+              child: const Text(
+                "ツアーを開始する",
+                style: TextStyle(
+                  color: Colors.white, // テキストの色
+                  fontSize: 16.0,
+                ),
+              ),
+            ),
           ),
-          // ナビゲーションバーを表示
-          Container(
-            height: 70.0, // ナビゲーションバーの高さを設定
-            child: BottomNavigationBar(
+          const SizedBox(width: 10), // ボタン間の余白
+          // FloatingActionButton
+          FloatingActionButton(
+            onPressed: () {
+              navigateToPage(context, 1);
+            },
+            backgroundColor: const Color.fromRGBO(217, 242, 208, 1), // 背景色
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(100.0), // 丸い形
+              side: const BorderSide(
+                color: Colors.black, // 黒い枠線
+                width: 2.0,
+              ),
+            ),
+            child: const Icon(Icons.add),
+          ),
+        ],
+      ),
+      bottomNavigationBar: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min, // 必要最小限の高さに設定
+          children: [
+            // ナビゲーションバーの上に黒い線を追加
+            Container(
+              height: 2.0, // 線の高さ
+              color: Colors.black, // 線の色
+            ),
+            // ナビゲーションバー
+            BottomNavigationBar(
               currentIndex: _selectedIndex,
               onTap: _onItemTapped,
               selectedItemColor: const Color.fromRGBO(0, 98, 83, 1), // 選択時のアイコン色
@@ -160,17 +160,17 @@ class _CourseMaker extends State<CourseMaker> {
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
 
-final List<Map<String, String>> pages =[
-    { "title": "ルートA", "description": "ルートAの詳細情報" },
-    { "title": "ルートB", "description": "ルートBの詳細情報" },
-    { "title": "ルートC", "description": "ルートCの詳細情報" },
+final List<Map<String, String>> pages = [
+  {"title": "ルートA", "description": "ルートAの詳細情報"},
+  {"title": "ルートB", "description": "ルートBの詳細情報"},
+  {"title": "ルートC", "description": "ルートCの詳細情報"},
 ];
 
 void navigateToPage(BuildContext context, int index) {
@@ -181,10 +181,9 @@ void navigateToPage(BuildContext context, int index) {
     context,
     MaterialPageRoute(
       builder: (context) => RootMaker(
-        title: page["title"]!, // 取得したタイトルを渡す
-        description: page["description"]!, // 取得した説明を渡す
+        title: page["title"]!,
+        description: page["description"]!,
       ),
     ),
   );
 }
-

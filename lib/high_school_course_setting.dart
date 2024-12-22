@@ -7,6 +7,7 @@ class HighSchoolCourseSetting extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       //-----------------　ここタイトル -------------
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text(
           "高校生:学校見学",

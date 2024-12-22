@@ -31,10 +31,49 @@ class _AppHomeState extends State<AppHome> {
 
   @override
   void initState() {
-    super.initState();
-    _loadGeoJson(); // GeoJSONデータを読み込む
-    _startLocationUpdates(); // 位置情報の更新を開始
+  super.initState();
+  _initializeLocation(); // 初期化
+  _loadGeoJson(); // GeoJSONデータを読み込む
+  _startLocationUpdates(); // 位置情報の更新を開始
   }
+
+  void _initializeLocation() async {
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+
+    // ロケーションサービスの有効化確認
+    _serviceEnabled = await _location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await _location.requestService();
+      if (!_serviceEnabled) {
+        print('ロケーションサービスが有効化されていません。');
+        return;
+      }
+    }
+
+    // 位置情報権限の確認
+    _permissionGranted = await _location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await _location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        print('位置情報権限が許可されていません。');
+        return;
+      }
+    }
+
+    // 初期位置情報を取得
+    _currentLocation = await _location.getLocation();
+    setState(() {
+      _currentLocationMarker = Marker(
+        markerId: const MarkerId('current_location'),
+        position: LatLng(_currentLocation.latitude!, _currentLocation.longitude!),
+        infoWindow: const InfoWindow(title: '現在地'),
+      );
+    });
+
+    print('初期位置: ${_currentLocation.latitude}, ${_currentLocation.longitude}');
+  }
+
 
   // 位置情報を継続的に取得
   void _startLocationUpdates() {
@@ -98,35 +137,31 @@ class _AppHomeState extends State<AppHome> {
 
   // GeoJSONからポリラインを抽出
   Set<Polyline> _extractPolylines(Map<String, dynamic> geoJson) {
-  final Set<Polyline> polylines = {};
-  final features = geoJson['features'] as List<dynamic>;
+    final Set<Polyline> polylines = {};
+    final features = geoJson['features'] as List<dynamic>;
 
-  for (final feature in features) {
-    if (feature['geometry']['type'] == 'LineString') {
-      final coordinates = feature['geometry']['coordinates'] as List<dynamic>;
-      final List<LatLng> points = coordinates
-          .map((coordinate) => LatLng(coordinate[1], coordinate[0]))
-          .toList();
+    for (final feature in features) {
+      if (feature['geometry']['type'] == 'LineString') {
+        final coordinates = feature['geometry']['coordinates'] as List<dynamic>;
+        final List<LatLng> points = coordinates
+            .map((coordinate) => LatLng(coordinate[1], coordinate[0]))
+            .toList();
 
-      // デバッグ用にポイントを表示
-      print("Polyline Points: $points");
-
-      if (points.isNotEmpty) {
-        polylines.add(
-          Polyline(
-            polylineId: PolylineId('polyline_${feature['id']}'),
-            points: points,
-            color: Colors.blue,
-            width: 5,
-            zIndex: 0, // Polylineを背面に設定
-          ),
-        );
+        if (points.isNotEmpty) {
+          polylines.add(
+            Polyline(
+              polylineId: PolylineId('polyline_${feature['id']}'),
+              points: points,
+              color: Colors.blue,
+              width: 5,
+              zIndex: 0, // Polylineを背面に設定
+            ),
+          );
+        }
       }
     }
-  }
     return polylines;
   }
-
 
   // 地図が作成されたとき
   void _onMapCreated(GoogleMapController controller) {
@@ -154,73 +189,59 @@ class _AppHomeState extends State<AppHome> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
-        body: GoogleMap(
-          onMapCreated: _onMapCreated,
-          mapType: MapType.hybrid,
-          markers: _markers..addAll(_currentLocationMarker != null ? {_currentLocationMarker!} : {}),
-          polylines: _polylines,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 18.0,
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: Column(
+      children: [
+        // Google Map 表示
+        Expanded(
+          child:
+          GoogleMap(
+            onMapCreated: _onMapCreated,
+            mapType: MapType.hybrid,
+            myLocationEnabled: true, // デフォルトの青い丸を有効化
+            markers: _markers, // カスタムマーカーには現在地を含めない
+            polylines: _polylines,
+            initialCameraPosition: CameraPosition(
+              target: _center,
+              zoom: 18.0,
+            ),
           ),
         ),
-        bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min, // 必要最小限の高さに設定
-        children: [
-          // 検索ボックスの上に線
-          Container(
-            height: 2.0, // 線の高さ
-            color: Colors.black, // 線の色
-          ),
-          // 検索ボックス全体の背景色を白に
-          Container(
-            color: Colors.white, // 背景を白に設定
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  labelText: '検索', // 検索と書かれたラベル
-                  fillColor: Colors.white, // 背景色を白に設定
-                  filled: true, // 背景を塗りつぶす
-                  border: OutlineInputBorder(), // ボーダーを追加
-                  contentPadding: EdgeInsets.symmetric(horizontal: 10.0), // 内側の余白
-                ),
+        // 検索バーを下部に配置
+        Container(
+          color: Colors.white, // 背景を白に設定
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            decoration: InputDecoration(
+              labelText: '検索', // ラベル
+              prefixIcon: Icon(Icons.search),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0),
               ),
+              contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
             ),
           ),
-          // 検索ボックスとナビゲーションバーの間に線を追加
-          Container(
-            height: 2.0, // 線の高さ
-            color: Colors.black, // 線の色
-          ),
-          // ナビゲーションバー
-          Container(
-            height: 70.0, // 高さを変更
-            child: BottomNavigationBar(
-              currentIndex: _selectedIndex,
-              onTap: _onItemTapped,
-              selectedItemColor: const Color.fromRGBO(0, 98, 83, 1), // 選択時のアイコン色
-              unselectedItemColor: const Color.fromRGBO(75, 75, 75, 1), // 非選択時のアイコン色
-              backgroundColor: Colors.white,
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.map),
-                  label: "マップ",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.flag),
-                  label: "キャンパスツアー",
-                ),
-              ],
-            ),
-
-          ),
-        ],
-      ),
-    )
-    );
-  }
+        ),
+      ],
+    ),
+    bottomNavigationBar: BottomNavigationBar(
+      currentIndex: _selectedIndex,
+      onTap: _onItemTapped,
+      selectedItemColor: const Color.fromRGBO(0, 98, 83, 1),
+      unselectedItemColor: const Color.fromRGBO(75, 75, 75, 1),
+      backgroundColor: Colors.white,
+      items: const [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.map),
+          label: "マップ",
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.flag),
+          label: "キャンパスツアー",
+        ),
+      ],
+    ),
+  );
+}
 }
