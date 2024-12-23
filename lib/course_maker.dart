@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/tour_macker.dart';
-
 import 'util.dart';
 
 class CourseMaker extends StatefulWidget {
@@ -9,12 +8,11 @@ class CourseMaker extends StatefulWidget {
 
   const CourseMaker({required this.title, required this.description, Key? key}) : super(key: key);
   @override
-  _CourseMaker createState() => _CourseMaker();
+  _CourseMakerState createState() => _CourseMakerState();
 }
 
-//キャンパスツアーの順番表示するページの親（仮）
-class _CourseMaker extends State<CourseMaker> {
-  
+// キャンパスツアーの順番表示するページの親（仮）
+class _CourseMakerState extends State<CourseMaker> {
   int _selectedIndex = 1; // 初期選択（キャンパスツアー）
 
   void _onItemTapped(int index) {
@@ -51,6 +49,7 @@ class _CourseMaker extends State<CourseMaker> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text(
           "キャンパスツアー",
@@ -62,24 +61,22 @@ class _CourseMaker extends State<CourseMaker> {
         backgroundColor: const Color.fromRGBO(0, 98, 83, 1), // AppBarの背景色を変更
       ),
       body: Column(
-      children: [
-        // 少し下に移動させるための余白を追加
-        Container(
-          color: Colors.white,
-          height: 8.0,
-        ),
-        // AppBarの下に帯状のテキストを表示
-        Container(
-          width: double.infinity, // 横幅を画面全体に設定
-          color: const Color.fromRGBO(166, 202, 236, 1),
-          padding: const EdgeInsets.symmetric(vertical: 8.0), // 上下の余白
-          child: Text(
-            widget.title,
-            textAlign: TextAlign.center, // テキストを中央揃え
-            style: const TextStyle(
-              color: Colors.black, // テキストの色
-              fontSize: 18, // フォントサイズ
-              fontWeight: FontWeight.bold, // 太字
+        children: [
+          // 少し下に移動させるための余白を追加
+          const SizedBox(height: 8.0),
+          // AppBarの下に帯状のテキストを表示
+          Container(
+            width: double.infinity, // 横幅を画面全体に設定
+            color: const Color.fromRGBO(166, 202, 236, 1),
+            padding: const EdgeInsets.symmetric(vertical: 8.0), // 上下の余白
+            child: Text(
+              widget.title,
+              textAlign: TextAlign.center, // テキストを中央揃え
+              style: const TextStyle(
+                color: Colors.black, // テキストの色
+                fontSize: 18, // フォントサイズ
+                fontWeight: FontWeight.bold, // 太字
+              ),
             ),
           ),
         ),
@@ -152,18 +149,17 @@ class _CourseMaker extends State<CourseMaker> {
           ),
         ],
       ),
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min, // 必要最小限の高さに設定
-        children: [
-          // ナビゲーションバーの上に黒い線を追加
-          Container(
-            height: 2.0, // 線の高さ
-            color: Colors.black, // 線の色
-          ),
-          // ナビゲーションバーを表示
-          Container(
-            height: 70.0, // ナビゲーションバーの高さを設定
-            child: BottomNavigationBar(
+      bottomNavigationBar: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min, // 必要最小限の高さに設定
+          children: [
+            // ナビゲーションバーの上に黒い線を追加
+            Container(
+              height: 2.0, // 線の高さ
+              color: Colors.black, // 線の色
+            ),
+            // ナビゲーションバー
+            BottomNavigationBar(
               currentIndex: _selectedIndex,
               onTap: _onItemTapped,
               selectedItemColor: const Color.fromRGBO(0, 98, 83, 1), // 選択時のアイコン色
@@ -180,8 +176,8 @@ class _CourseMaker extends State<CourseMaker> {
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -207,4 +203,3 @@ void navigateToPage(BuildContext context, String title) {
     ),
   );
 }
-

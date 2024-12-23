@@ -34,6 +34,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   google_maps_flutter: ^2.10.0
   location: ^7.0.1
+  envied: ^1.0.0
+  flutter_dotenv: ^5.0.2
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -50,6 +52,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
+  build_runner: ^2.4.13
+  envied_generator: ^1.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -96,3 +100,4 @@ flutter:
     - assets/root_data.json
     - assets/route_data.json
     - assets/highschool.json
+    - .env

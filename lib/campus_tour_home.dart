@@ -4,12 +4,13 @@ import 'course_maker.dart';
 
 class CampusTourHome extends StatefulWidget {
   const CampusTourHome({super.key});
+
   @override
-  _CampusTourHome createState() => _CampusTourHome();
+  _CampusTourHomeState createState() => _CampusTourHomeState();
 }
 
-//キャンパスツアーの属性選択画面
-class _CampusTourHome extends State<CampusTourHome> {
+// キャンパスツアーの属性選択画面
+class _CampusTourHomeState extends State<CampusTourHome> {
   int _selectedIndex = 1; // 初期選択（キャンパスツアー）
 
   void _onItemTapped(int index) {
@@ -24,9 +25,11 @@ class _CampusTourHome extends State<CampusTourHome> {
       // 現在のページなので何もしない
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text(
           "キャンパスツアー",
@@ -54,14 +57,12 @@ class _CampusTourHome extends State<CampusTourHome> {
                   RoundedButton(
                     label: "高校生：学校見学",
                     onPressed: () {
-                      // 他の画面遷移（例: SchoolTourPage）
                       navigateToPage(context, 0);
                     },
                   ),
                   RoundedButton(
                     label: "新入生：情報科学科",
                     onPressed: () {
-                      // 他の画面遷移
                       navigateToPage(context, 1);
                     },
                   ),
@@ -78,19 +79,17 @@ class _CampusTourHome extends State<CampusTourHome> {
           ],
         ),
       ),
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min, // 必要最小限の高さに設定
-        children: [
-          // ナビゲーションバーの上に線を追加
-          Container(
-            height: 2.0, // 線の高さ
-            color: Colors.black, // 線の色
-          ),
-          // ナビゲーションバー
-          Container(
-            height: 70.0, // ナビゲーションバーの高さを変更
-            color: Colors.white, // 背景色を白に設定
-            child: BottomNavigationBar(
+      bottomNavigationBar: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min, // 必要最小限の高さに設定
+          children: [
+            // ナビゲーションバーの上に線を追加
+            Container(
+              height: 2.0, // 線の高さ
+              color: Colors.black, // 線の色
+            ),
+            // ナビゲーションバー
+            BottomNavigationBar(
               currentIndex: _selectedIndex,
               onTap: _onItemTapped,
               selectedItemColor: const Color.fromRGBO(0, 98, 83, 1), // 選択時のアイコン色
@@ -107,8 +106,8 @@ class _CampusTourHome extends State<CampusTourHome> {
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
