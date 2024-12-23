@@ -207,18 +207,17 @@ class _TourMaker extends State<TourMaker> {
         ),
       ],
     ),
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min, // 必要最小限の高さに設定
-        children: [
-          // ナビゲーションバーの上に黒い線を追加
-          Container(
-            height: 2.0, // 線の高さ
-            color: Colors.black, // 線の色
-          ),
-          // ナビゲーションバーを表示
-          Container(
-            height: 70.0, // ナビゲーションバーの高さを設定
-            child: BottomNavigationBar(
+      bottomNavigationBar: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min, // 必要最小限の高さに設定
+          children: [
+            // ナビゲーションバーの上に黒い線を追加
+            Container(
+              height: 2.0, // 線の高さ
+              color: Colors.black, // 線の色
+            ),
+            // ナビゲーションバー
+            BottomNavigationBar(
               currentIndex: _selectedIndex,
               onTap: _onItemTapped,
               selectedItemColor: const Color.fromRGBO(0, 98, 83, 1), // 選択時のアイコン色
@@ -235,8 +234,8 @@ class _TourMaker extends State<TourMaker> {
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

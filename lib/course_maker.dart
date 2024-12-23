@@ -79,7 +79,6 @@ class _CourseMakerState extends State<CourseMaker> {
               ),
             ),
           ),
-        ),
         Expanded(
             child: Column(
               children: [
