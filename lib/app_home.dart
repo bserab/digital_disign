@@ -229,20 +229,31 @@ class _AppHomeState extends State<AppHome> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        selectedItemColor: const Color.fromRGBO(0, 98, 83, 1),
-        unselectedItemColor: const Color.fromRGBO(75, 75, 75, 1),
-        backgroundColor: Colors.white,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: "マップ",
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min, // 必要最小限の高さに設定
+        children: [
+          // ナビゲーションバーの上に線を残す
+          Container(
+            height: 2.0, // 線の高さ
+            color: Colors.black, // 線の色
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.flag),
-            label: "キャンパスツアー",
+          // ナビゲーションバー
+          BottomNavigationBar(
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
+            selectedItemColor: const Color.fromRGBO(0, 98, 83, 1), // 選択時のアイコン色
+            unselectedItemColor: const Color.fromRGBO(75, 75, 75, 1), // 非選択時のアイコン色
+            backgroundColor: Colors.white, // ナビゲーションバーの背景を白に設定
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.map),
+                label: "マップ",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.flag),
+                label: "キャンパスツアー",
+              ),
+            ],
           ),
         ],
       ),
