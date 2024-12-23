@@ -66,12 +66,6 @@ class _CampusTourHomeState extends State<CampusTourHome> {
                       navigateToPage(context, 1);
                     },
                   ),
-                  RoundedButton(
-                    label: "新入生：??学科",
-                    onPressed: () {
-                      navigateToPage(context, 2);
-                    },
-                  ),
                   // 必要に応じてボタンを追加
                 ],
               ),
@@ -79,35 +73,33 @@ class _CampusTourHomeState extends State<CampusTourHome> {
           ],
         ),
       ),
-      bottomNavigationBar: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min, // 必要最小限の高さに設定
-          children: [
-            // ナビゲーションバーの上に線を追加
-            Container(
-              height: 2.0, // 線の高さ
-              color: Colors.black, // 線の色
-            ),
-            // ナビゲーションバー
-            BottomNavigationBar(
-              currentIndex: _selectedIndex,
-              onTap: _onItemTapped,
-              selectedItemColor: const Color.fromRGBO(0, 98, 83, 1), // 選択時のアイコン色
-              unselectedItemColor: const Color.fromRGBO(75, 75, 75, 1), // 非選択時のアイコン色
-              backgroundColor: Colors.white, // ナビゲーションバーの背景を白に設定
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.map),
-                  label: "マップ",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.flag),
-                  label: "キャンパスツアー",
-                ),
-              ],
-            ),
-          ],
-        ),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min, // 必要最小限の高さに設定
+        children: [
+          // ナビゲーションバーの上に線を残す
+          Container(
+            height: 2.0, // 線の高さ
+            color: Colors.black, // 線の色
+          ),
+          // ナビゲーションバー
+          BottomNavigationBar(
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
+            selectedItemColor: const Color.fromRGBO(0, 98, 83, 1), // 選択時のアイコン色
+            unselectedItemColor: const Color.fromRGBO(75, 75, 75, 1), // 非選択時のアイコン色
+            backgroundColor: Colors.white, // ナビゲーションバーの背景を白に設定
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.map),
+                label: "マップ",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.flag),
+                label: "キャンパスツアー",
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -129,6 +121,7 @@ void navigateToPage(BuildContext context, int index) {
       builder: (context) => CourseMaker(
         title: page["title"]!,
         description: page["description"]!,
+        id: index,
       ),
     ),
   );

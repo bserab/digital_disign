@@ -11,8 +11,9 @@ import 'root_maker.dart';
 
 class TourMaker extends StatefulWidget {
   final String title;
+  final int id;
 
-  const TourMaker({required this.title,  Key? key}) : super(key: key);
+  const TourMaker({required this.title,required this.id,  Key? key}) : super(key: key);
   @override
   _TourMaker createState() => _TourMaker();
 }
@@ -22,6 +23,8 @@ class _TourMaker extends State<TourMaker> {
   
   late GoogleMapController mapController;
   final LatLng _center = const LatLng(35.66216793880571, 139.63427019724344);
+
+  final List<String> json_path = ["assets/highschool.json","assets/info.json"];
 
   Set<Marker> _markers = {};
   Set<Polyline> _polylines = {};
@@ -66,7 +69,7 @@ class _TourMaker extends State<TourMaker> {
   // GeoJSONデータを読み込む
   Future<void> _loadGeoJson() async {
     try {
-      final String geoJsonString = await rootBundle.loadString('assets/highschool.json');
+    final String geoJsonString = await rootBundle.loadString(json_path[widget.id]);
       final Map<String, dynamic> geoJson = json.decode(geoJsonString);
 
       final markers = _extractMarkers(geoJson);
@@ -174,21 +177,24 @@ class _TourMaker extends State<TourMaker> {
       children: [
         // 少し下に移動させるための余白を追加
         Container(
-          color: Colors.white,
-          height: 8.0,
-        ),
-        // AppBarの下に帯状のテキストを表示
-        Container(
           width: double.infinity, // 横幅を画面全体に設定
-          color: const Color.fromRGBO(166, 202, 236, 1),
-          padding: const EdgeInsets.symmetric(vertical: 8.0), // 上下の余白
-          child: Text(
-            widget.title,
-            textAlign: TextAlign.center, // テキストを中央揃え
-            style: const TextStyle(
-              color: Colors.black, // テキストの色
-              fontSize: 18, // フォントサイズ
-              fontWeight: FontWeight.bold, // 太字
+          color: const Color.fromRGBO(0, 98, 83, 1), // 背景色を変更
+          padding: const EdgeInsets.symmetric(vertical: 6.0), // 上下の余白
+          child: Center(
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 80.0),
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(166, 202, 236, 1), // 内部背景色
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Text(
+                widget.title,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
             ),
           ),
         ),
@@ -201,41 +207,39 @@ class _TourMaker extends State<TourMaker> {
             initialCameraPosition: CameraPosition(
               target: _markers.first.position,
               zoom: 19.0,
-              bearing: 90,
+              bearing: 180,
             ),
           ),
         ),
       ],
     ),
-      bottomNavigationBar: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min, // 必要最小限の高さに設定
-          children: [
-            // ナビゲーションバーの上に黒い線を追加
-            Container(
-              height: 2.0, // 線の高さ
-              color: Colors.black, // 線の色
-            ),
-            // ナビゲーションバー
-            BottomNavigationBar(
-              currentIndex: _selectedIndex,
-              onTap: _onItemTapped,
-              selectedItemColor: const Color.fromRGBO(0, 98, 83, 1), // 選択時のアイコン色
-              unselectedItemColor: const Color.fromRGBO(75, 75, 75, 1), // 非選択時のアイコン色
-              backgroundColor: Colors.white, // ナビゲーションバーの背景を白に設定
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.map),
-                  label: "マップ",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.flag),
-                  label: "キャンパスツアー",
-                ),
-              ],
-            ),
-          ],
-        ),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min, // 必要最小限の高さに設定
+        children: [
+          // ナビゲーションバーの上に線を残す
+          Container(
+            height: 2.0, // 線の高さ
+            color: Colors.black, // 線の色
+          ),
+          // ナビゲーションバー
+          BottomNavigationBar(
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
+            selectedItemColor: const Color.fromRGBO(0, 98, 83, 1), // 選択時のアイコン色
+            unselectedItemColor: const Color.fromRGBO(75, 75, 75, 1), // 非選択時のアイコン色
+            backgroundColor: Colors.white, // ナビゲーションバーの背景を白に設定
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.map),
+                label: "マップ",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.flag),
+                label: "キャンパスツアー",
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

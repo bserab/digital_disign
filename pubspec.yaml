@@ -100,4 +100,5 @@ flutter:
     - assets/root_data.json
     - assets/route_data.json
     - assets/highschool.json
+    - assets/info.json
     - .env
