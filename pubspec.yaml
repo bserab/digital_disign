@@ -99,4 +99,5 @@ flutter:
     - images/image.png
     - assets/root_data.json
     - assets/route_data.json
+    - assets/highschool.json
     - .env

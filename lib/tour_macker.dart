@@ -1,26 +1,32 @@
+import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert'; // JSONデコード用
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/services.dart'; // アセット読み込み用
 import 'package:location/location.dart'; // 位置情報取得用
-import 'campus_tour_home.dart';
+import 'package:my_app/app_home.dart';
+import 'util.dart';
+import 'root_maker.dart';
 
-class AppHome extends StatefulWidget {
-  const AppHome({super.key});
+class TourMaker extends StatefulWidget {
+  final String title;
 
+  const TourMaker({required this.title,  Key? key}) : super(key: key);
   @override
-  _AppHomeState createState() => _AppHomeState();
+  _TourMaker createState() => _TourMaker();
 }
 
-class _AppHomeState extends State<AppHome> {
+//キャンパスツアーの順番表示するページの親（仮）
+class _TourMaker extends State<TourMaker> {
+  
   late GoogleMapController mapController;
   final LatLng _center = const LatLng(35.66216793880571, 139.63427019724344);
 
   Set<Marker> _markers = {};
   Set<Polyline> _polylines = {};
 
-  int _selectedIndex = 0; // BottomNavigationBarの選択状態
+  int _selectedIndex = 1; // BottomNavigationBarの選択状態
 
   // 現在地用
   late LocationData _currentLocation;
@@ -31,49 +37,10 @@ class _AppHomeState extends State<AppHome> {
 
   @override
   void initState() {
-  super.initState();
-  _initializeLocation(); // 初期化
-  _loadGeoJson(); // GeoJSONデータを読み込む
-  _startLocationUpdates(); // 位置情報の更新を開始
+    super.initState();
+    _loadGeoJson(); // GeoJSONデータを読み込む
+    _startLocationUpdates(); // 位置情報の更新を開始
   }
-
-  void _initializeLocation() async {
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-
-    // ロケーションサービスの有効化確認
-    _serviceEnabled = await _location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await _location.requestService();
-      if (!_serviceEnabled) {
-        print('ロケーションサービスが有効化されていません。');
-        return;
-      }
-    }
-
-    // 位置情報権限の確認
-    _permissionGranted = await _location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await _location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        print('位置情報権限が許可されていません。');
-        return;
-      }
-    }
-
-    // 初期位置情報を取得
-    _currentLocation = await _location.getLocation();
-    setState(() {
-      _currentLocationMarker = Marker(
-        markerId: const MarkerId('current_location'),
-        position: LatLng(_currentLocation.latitude!, _currentLocation.longitude!),
-        infoWindow: const InfoWindow(title: '現在地'),
-      );
-    });
-
-    print('初期位置: ${_currentLocation.latitude}, ${_currentLocation.longitude}');
-  }
-
 
   // 位置情報を継続的に取得
   void _startLocationUpdates() {
@@ -161,11 +128,12 @@ class _AppHomeState extends State<AppHome> {
             zIndex: 0, // Polylineを背面に設定
           ),
         );
-        }
       }
     }
+  }
     return polylines;
   }
+
 
   // 地図が作成されたとき
   void _onMapCreated(GoogleMapController controller) {
@@ -174,15 +142,12 @@ class _AppHomeState extends State<AppHome> {
 
   // BottomNavigationBarのタップイベント
   void _onItemTapped(int index) {
-    if (index == 0) {
+    if (index == 1) {
       setState(() {
         _selectedIndex = index;
       });
-    } else if (index == 1) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const CampusTourHome()),
-      );
+    } else if (index == 0) {
+      Navigator.of(context).popUntil((route) => route.isFirst);
     }
   }
 
@@ -195,57 +160,85 @@ class _AppHomeState extends State<AppHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          // Google Map 表示
-          Expanded(
-            child:
-            GoogleMap(
-              onMapCreated: _onMapCreated,
-              mapType: MapType.hybrid,
-              myLocationEnabled: true, // デフォルトの青い丸を有効化
-              markers: _markers..addAll(_currentLocationMarker != null ? {_currentLocationMarker!} : {}),
-              polylines: _polylines..addAll(_polylines),
-              initialCameraPosition: CameraPosition(
-                target: _center,
-                zoom: 18.0,
-              ),
-            ),
+      appBar: AppBar(
+        title: const Text(
+          "キャンパスツアー",
+          style: TextStyle(
+            color: Color.fromRGBO(242, 242, 242, 1), // テキストの色を設定
           ),
-          // 検索バーを下部に配置
-          Container(
-            color: Colors.white, // 背景を白に設定
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: InputDecoration(
-                labelText: '検索', // ラベル
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-              ),
-            ),
-          ),
-        ],
+        ),
+        centerTitle: true,
+        backgroundColor: const Color.fromRGBO(0, 98, 83, 1), // AppBarの背景色を変更
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        selectedItemColor: const Color.fromRGBO(0, 98, 83, 1),
-        unselectedItemColor: const Color.fromRGBO(75, 75, 75, 1),
-        backgroundColor: Colors.white,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: "マップ",
+      body: Column(
+      children: [
+        // 少し下に移動させるための余白を追加
+        Container(
+          color: Colors.white,
+          height: 8.0,
+        ),
+        // AppBarの下に帯状のテキストを表示
+        Container(
+          width: double.infinity, // 横幅を画面全体に設定
+          color: const Color.fromRGBO(166, 202, 236, 1),
+          padding: const EdgeInsets.symmetric(vertical: 8.0), // 上下の余白
+          child: Text(
+            widget.title,
+            textAlign: TextAlign.center, // テキストを中央揃え
+            style: const TextStyle(
+              color: Colors.black, // テキストの色
+              fontSize: 18, // フォントサイズ
+              fontWeight: FontWeight.bold, // 太字
+            ),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.flag),
-            label: "キャンパスツアー",
+        ),
+        Expanded(
+          child: GoogleMap(
+            onMapCreated: _onMapCreated,
+            mapType: MapType.hybrid,
+            markers: _markers..addAll(_currentLocationMarker != null ? {_currentLocationMarker!} : {}),
+            polylines: _polylines..addAll(_polylines),
+            initialCameraPosition: CameraPosition(
+              target: _markers.first.position,
+              zoom: 19.0,
+              bearing: 90,
+            ),
+          ),
+        ),
+      ],
+    ),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min, // 必要最小限の高さに設定
+        children: [
+          // ナビゲーションバーの上に黒い線を追加
+          Container(
+            height: 2.0, // 線の高さ
+            color: Colors.black, // 線の色
+          ),
+          // ナビゲーションバーを表示
+          Container(
+            height: 70.0, // ナビゲーションバーの高さを設定
+            child: BottomNavigationBar(
+              currentIndex: _selectedIndex,
+              onTap: _onItemTapped,
+              selectedItemColor: const Color.fromRGBO(0, 98, 83, 1), // 選択時のアイコン色
+              unselectedItemColor: const Color.fromRGBO(75, 75, 75, 1), // 非選択時のアイコン色
+              backgroundColor: Colors.white, // ナビゲーションバーの背景を白に設定
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.map),
+                  label: "マップ",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.flag),
+                  label: "キャンパスツアー",
+                ),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
 }
+

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/tour_macker.dart';
 import 'util.dart';
-import 'root_maker.dart';
 
 class CourseMaker extends StatefulWidget {
   final String title;
@@ -79,57 +79,73 @@ class _CourseMakerState extends State<CourseMaker> {
               ),
             ),
           ),
-          Expanded(
-            child: Container(
-              color: Colors.white, // 画面全体の背景色を白に設定
-              child: Center(
-                child: Text(currentDescription),
-              ),
+        ),
+        Expanded(
+            child: Column(
+              children: [
+                // おすすめコーステキスト
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    "おすすめコース",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                // コースリスト
+                Expanded(
+                  child: ListView.separated(
+                    itemCount: courseTitles.length+1, // サンプルデータとして7項目を表示
+                    itemBuilder: (context, index) {
+                      if(index < courseTitles.length){
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 0),
+                        child: ListTile(
+                          title: Text(
+                            "${index + 1}. ${courseTitles[index]}",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ), // 項目名
+                      );
+                      } else {
+                        return const SizedBox.shrink(); // 追加の線のための空要素
+                      }
+                    },
+                    separatorBuilder: (context, index) {
+                      return const Divider( // 各項目間の分割線
+                        color: Colors.grey,
+                        thickness: 1.0,
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         ],
       ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+      floatingActionButton: Stack(
         children: [
-          // "ツアーを開始する" ボタン
-          SizedBox(
-            width: size.width * 0.7, // ボタンの幅を調整
-            height: 50.0,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0), // ボタンの角を丸く
-                ),
-                backgroundColor: const Color.fromRGBO(0, 98, 83, 1), // ボタンの背景色
-              ),
-              onPressed: () {
-                updateDescription("ツアーが開始されました！");
-              },
-              child: const Text(
-                "ツアーを開始する",
-                style: TextStyle(
-                  color: Colors.white, // テキストの色
-                  fontSize: 16.0,
-                ),
+          // RoundedButton を FloatingActionButton の横に配置
+          Positioned(
+            right: 0, // 右端からの距離を調整
+            bottom: 0, // 下端からの距離を調整
+            child: SizedBox(
+              width: size.width - size.width/11, //ボタンの幅を指定
+              height: size.height/11,
+              child: RoundedButton(
+                label: "ツアーを開始する",
+                onPressed: () {
+                  // 長方形ボタンが押されたときの処理
+                  updateDescription("ツアーが開始されました！");
+                  navigateToPage(context, widget.title);
+                },
               ),
             ),
-          ),
-          const SizedBox(width: 10), // ボタン間の余白
-          // FloatingActionButton
-          FloatingActionButton(
-            onPressed: () {
-              navigateToPage(context, 1);
-            },
-            backgroundColor: const Color.fromRGBO(217, 242, 208, 1), // 背景色
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(100.0), // 丸い形
-              side: const BorderSide(
-                color: Colors.black, // 黒い枠線
-                width: 2.0,
-              ),
-            ),
-            child: const Icon(Icons.add),
           ),
         ],
       ),
@@ -167,22 +183,22 @@ class _CourseMakerState extends State<CourseMaker> {
   }
 }
 
-final List<Map<String, String>> pages = [
-  {"title": "ルートA", "description": "ルートAの詳細情報"},
-  {"title": "ルートB", "description": "ルートBの詳細情報"},
-  {"title": "ルートC", "description": "ルートCの詳細情報"},
+List<String> courseTitles = [
+  "日本大学文理学部図書館",
+  "ファミリーマート 日本大学",
+  "桜門書房",
+  "食堂 秋桜",
+  "冨山房インターナショナル",
+  "ラーニング・コモンズ",
+  "就職サポートセンター"
 ];
 
-void navigateToPage(BuildContext context, int index) {
-  // 指定されたインデックスからページデータを取得
-  final page = pages[index];
-
+void navigateToPage(BuildContext context, String title) {
   Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => RootMaker(
-        title: page["title"]!,
-        description: page["description"]!,
+      builder: (context) => TourMaker(
+        title: title, // 取得したタイトルを渡す
       ),
     ),
   );
