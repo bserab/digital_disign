@@ -115,7 +115,7 @@ class _AppHomeState extends State<AppHome> {
   }
 
   // GeoJSONからマーカーを抽出
-  Set<Marker> _extractMarkers(Map<String, dynamic> geoJson) {
+    Set<Marker> _extractMarkers(Map<String, dynamic> geoJson) {
     final Set<Marker> markers = {};
     final features = geoJson['features'] as List<dynamic>;
 
@@ -127,7 +127,26 @@ class _AppHomeState extends State<AppHome> {
             markerId: MarkerId('marker_${feature['id']}'),
             position: LatLng(coordinates[1], coordinates[0]),
             infoWindow: InfoWindow(title: '地点 ${feature['id']}'),
-            zIndex: 1, // マーカーを前面に
+            zIndex: 1,
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('地点 ${feature['id']}'),
+                    content: Text('この地点に関する詳細情報です。'),
+                    actions: [
+                      TextButton(
+                        child: Text('閉じる'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
           ),
         );
       }
@@ -199,13 +218,12 @@ class _AppHomeState extends State<AppHome> {
         children: [
           // Google Map 表示
           Expanded(
-            child:
-            GoogleMap(
+            child: GoogleMap(
               onMapCreated: _onMapCreated,
               mapType: MapType.hybrid,
               myLocationEnabled: true, // デフォルトの青い丸を有効化
-              markers: _markers..addAll(_currentLocationMarker != null ? {_currentLocationMarker!} : {}),
-              polylines: _polylines..addAll(_polylines),
+              markers: _markers,
+              polylines: _polylines,
               initialCameraPosition: CameraPosition(
                 target: _center,
                 zoom: 18.0,
