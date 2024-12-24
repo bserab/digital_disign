@@ -3,7 +3,11 @@
   "features": [
     {
       "type": "Feature",
-      "properties": {"title": "正門"},
+      "properties": {
+        "title": "正門",
+        "description": "日本大学文理学部の正門！キャンパスの入口！！！",
+        "hours": "月〜土 7:00 - 22:00, 日 終日入構不可"
+      },
       "geometry": {
         "coordinates": [
           139.6344741077868,
@@ -61,7 +65,11 @@
     },
     {
       "type": "Feature",
-      "properties": {"title": "日本大学文理学部図書館"},
+      "properties": {
+        "title": "日本大学文理学部図書館",
+        "description": "大学内の図書館！様々な資料が揃っています！！！",
+        "hours": "月〜土 9:00 - 20:00, 日 休館"
+      },
       "geometry": {
         "coordinates": [
           139.63561477732668,
@@ -114,7 +122,11 @@
     },
     {
       "type": "Feature",
-      "properties": {"title": "ファミリーマート日本大学文理学部店"},
+      "properties": {
+        "title": "ファミリーマート日本大学文理学部店",
+        "description": "キャンパス内にあるコンビニ！お酒とたばこは置いてないよ！！！",
+        "hours": "終日 8:00 - 19:00（インターネット情報曰く）"
+      },
       "geometry": {
         "coordinates": [
           139.6352214998018,
@@ -143,7 +155,11 @@
     },
     {
       "type": "Feature",
-      "properties": {"title": "桜門書店"},
+      "properties": {
+        "title": "桜門書店",
+        "description": "キャンパス内にある書店！学術書や参考書が豊富！！！",
+        "hours": "土〜日 8:30 - 18:00, 月～金 営業時間外（インターネット情報曰く）"
+      },
       "geometry": {
         "coordinates": [
           139.63520741830177,
@@ -172,7 +188,11 @@
     },
     {
       "type": "Feature",
-      "properties": {"title": "食堂秋桜"},
+      "properties": {
+        "title": "食堂秋桜",
+        "description": "学生食堂！恐らく安くておいしい！！！",
+        "hours": "月〜土 11:00 - 19:00, 日 営業時間外"
+      },
       "geometry": {
         "coordinates": [
           139.63517153387693,
@@ -217,7 +237,11 @@
     },
     {
       "type": "Feature",
-      "properties": {"title": "冨士房インターナショナル"},
+      "properties": {
+        "title": "冨士房インターナショナル",
+        "description": "多分文房具屋さん！消しゴムが安かった！！！",
+        "hours": "終日 8:30 - 18:00（インターネット情報曰く）"
+      },
       "geometry": {
         "coordinates": [
           139.63497673206132,
@@ -258,7 +282,11 @@
     },
     {
       "type": "Feature",
-      "properties": {"title": "ラーニング・コモンズ"},
+      "properties": {
+        "title": "ラーニング・コモンズ",
+        "description": "学生向けの学習スペース！たまに変なイベントが行われる！！！",
+        "hours": "月〜土 9:00 - 18:00（多分）, 日 閉室"
+      },
       "geometry": {
         "coordinates": [
           139.63473142683483,
