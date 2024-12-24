@@ -1,0 +1,110 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {"title": "正門"},
+        "geometry": {
+          "coordinates": [
+            139.6344741077868,
+            35.66332220743395
+          ],
+          "type": "Point"
+        },
+        "id": 0
+      },
+      {
+        "type": "Feature",
+        "properties": {"title": "日本大学文理学部図書館"},
+        "geometry": {
+          "coordinates": [
+            139.63561477732668,
+            35.66312826620009
+          ],
+          "type": "Point"
+        },
+        "id": 2
+      },
+      {
+        "type": "Feature",
+        "properties": {"title": "ファミリーマート日本大学文理学部店"},
+        "geometry": {
+          "coordinates": [
+            139.6352214998018,
+            35.66247324836432
+          ],
+          "type": "Point"
+        },
+        "id": 4
+      },{
+        "type": "Feature",
+        "properties": {"title": "桜門書店"},
+        "geometry": {
+          "coordinates": [
+            139.63520741830177,
+            35.662367049119
+          ],
+          "type": "Point"
+        },
+        "id": 6
+      },
+      {
+        "type": "Feature",
+        "properties": {"title": "食堂秋桜"},
+        "geometry": {
+          "coordinates": [
+            139.63517153387693,
+            35.6620714489932
+          ],
+          "type": "Point"
+        },
+        "id": 8
+      },
+      {
+        "type": "Feature",
+        "properties": {"title": "冨士房インターナショナル"},
+        "geometry": {
+          "coordinates": [
+            139.63497673206132,
+            35.66216426192224
+          ],
+          "type": "Point"
+        },
+        "id": 10
+      },
+      {
+        "type": "Feature",
+        "properties": {"title": "ラーニング・コモンズ"},
+        "geometry": {
+          "coordinates": [
+            139.63473142683483,
+            35.661990359992885
+          ],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {"title": "情報科学科事務室"},
+        "geometry": {
+          "coordinates": [
+            139.63321231435168,
+            35.66122102009224
+          ],
+          "type": "Point"
+        },
+        "id": 10
+      },
+      {
+        "type": "Feature",
+        "properties": {"title": "計算機室"},
+        "geometry": {
+          "coordinates": [
+            139.6332161181976,
+            35.66116519946675
+          ],
+          "type": "Point"
+        }
+      }
+    ]
+  }

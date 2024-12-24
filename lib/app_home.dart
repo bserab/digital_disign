@@ -99,7 +99,7 @@ class _AppHomeState extends State<AppHome> {
   // GeoJSONデータを読み込む
   Future<void> _loadGeoJson() async {
     try {
-      final String geoJsonString = await rootBundle.loadString('assets/highschool.json');
+      final String geoJsonString = await rootBundle.loadString('assets/mappin.json');
       final Map<String, dynamic> geoJson = json.decode(geoJsonString);
 
       final markers = _extractMarkers(geoJson);

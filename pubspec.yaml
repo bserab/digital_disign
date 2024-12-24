@@ -101,4 +101,5 @@ flutter:
     - assets/route_data.json
     - assets/highschool.json
     - assets/info.json
+    - assets/mappin.json
     - .env
