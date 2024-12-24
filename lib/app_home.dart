@@ -115,38 +115,33 @@ class _AppHomeState extends State<AppHome> {
   }
 
   // GeoJSONからマーカーを抽出
-    Set<Marker> _extractMarkers(Map<String, dynamic> geoJson) {
+  Set<Marker> _extractMarkers(Map<String, dynamic> geoJson) {
     final Set<Marker> markers = {};
     final features = geoJson['features'] as List<dynamic>;
 
     for (final feature in features) {
       if (feature['geometry']['type'] == 'Point') {
         final coordinates = feature['geometry']['coordinates'] as List<dynamic>;
+        final properties = feature['properties'];
+
+        // ここでjsonファイルに格納されている施設情報を取得するよ
+        final title = properties['title'] ?? '施設名なし';
+        final description = properties['description'] ?? '詳細情報なし';
+        final hours = properties['hours'] ?? '営業時間情報なし';
+
+        // infoSnippetにdescriptionとhoursを結合するよ
+        final infoSnippet = '$description<br>$hours';
+
+        // マーカーを作成してInfoWindowにぶち込むよ
         markers.add(
           Marker(
             markerId: MarkerId('marker_${feature['id']}'),
             position: LatLng(coordinates[1], coordinates[0]),
-            infoWindow: InfoWindow(title: '地点 ${feature['id']}'),
-            zIndex: 1,
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('地点 ${feature['id']}'),
-                    content: Text('この地点に関する詳細情報です。'),
-                    actions: [
-                      TextButton(
-                        child: Text('閉じる'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
+            infoWindow: InfoWindow(
+              title: title,
+              snippet: infoSnippet,
+            ),
+            zIndex: 1, // マーカーを前面に
           ),
         );
       }
@@ -218,12 +213,13 @@ class _AppHomeState extends State<AppHome> {
         children: [
           // Google Map 表示
           Expanded(
-            child: GoogleMap(
+            child:
+            GoogleMap(
               onMapCreated: _onMapCreated,
               mapType: MapType.hybrid,
               myLocationEnabled: true, // デフォルトの青い丸を有効化
-              markers: _markers,
-              polylines: _polylines,
+              markers: _markers..addAll(_currentLocationMarker != null ? {_currentLocationMarker!} : {}),
+              polylines: _polylines..addAll(_polylines),
               initialCameraPosition: CameraPosition(
                 target: _center,
                 zoom: 18.0,
