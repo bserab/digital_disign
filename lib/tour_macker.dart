@@ -99,7 +99,7 @@ class _TourMaker extends State<TourMaker> {
         final description = properties['description'] ?? '詳細情報なし';
         final hours = properties['hours'] ?? '営業時間情報なし';
 
-        // infoSnippetにdescription, hoursを結合するよ
+        // infoSnippetにdescriptionとhoursを結合するよ
         final infoSnippet = '$description<br>$hours';
 
         // マーカーを作成してInfoWindowにぶち込むよ
