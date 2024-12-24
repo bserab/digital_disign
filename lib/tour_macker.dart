@@ -20,7 +20,7 @@ class TourMaker extends StatefulWidget {
 
 //キャンパスツアーの順番表示するページの親（仮）
 class _TourMaker extends State<TourMaker> {
-  
+
   late GoogleMapController mapController;
   final LatLng _center = const LatLng(35.66216793880571, 139.63427019724344);
 
@@ -69,7 +69,7 @@ class _TourMaker extends State<TourMaker> {
   // GeoJSONデータを読み込む
   Future<void> _loadGeoJson() async {
     try {
-    final String geoJsonString = await rootBundle.loadString(json_path[widget.id]);
+      final String geoJsonString = await rootBundle.loadString(json_path[widget.id]);
       final Map<String, dynamic> geoJson = json.decode(geoJsonString);
 
       final markers = _extractMarkers(geoJson);
@@ -92,11 +92,25 @@ class _TourMaker extends State<TourMaker> {
     for (final feature in features) {
       if (feature['geometry']['type'] == 'Point') {
         final coordinates = feature['geometry']['coordinates'] as List<dynamic>;
+        final properties = feature['properties'];
+
+        // ここでjsonファイルに格納されている施設情報を取得するよ
+        final title = properties['title'] ?? '施設名なし';
+        final description = properties['description'] ?? '詳細情報なし';
+        final hours = properties['hours'] ?? '営業時間情報なし';
+
+        // infoSnippetにdescription, hoursを結合するよ
+        final infoSnippet = '$description<br>$hours';
+
+        // マーカーを作成してInfoWindowにぶち込むよ
         markers.add(
           Marker(
             markerId: MarkerId('marker_${feature['id']}'),
             position: LatLng(coordinates[1], coordinates[0]),
-            infoWindow: InfoWindow(title: '地点 ${feature['id']}'),
+            infoWindow: InfoWindow(
+              title: title,
+              snippet: infoSnippet,
+            ),
             zIndex: 1, // マーカーを前面に
           ),
         );
@@ -107,33 +121,33 @@ class _TourMaker extends State<TourMaker> {
 
   // GeoJSONからポリラインを抽出
   Set<Polyline> _extractPolylines(Map<String, dynamic> geoJson) {
-  final Set<Polyline> polylines = {};
-  final features = geoJson['features'] as List<dynamic>;
+    final Set<Polyline> polylines = {};
+    final features = geoJson['features'] as List<dynamic>;
 
-  for (int i = 0; i < features.length; i++) {
-    final feature = features[i];
-    if (feature['geometry']['type'] == 'LineString') {
-      final coordinates = feature['geometry']['coordinates'] as List<dynamic>;
-      final List<LatLng> points = coordinates
-          .map((coordinate) => LatLng(coordinate[1], coordinate[0]))
-          .toList();
+    for (int i = 0; i < features.length; i++) {
+      final feature = features[i];
+      if (feature['geometry']['type'] == 'LineString') {
+        final coordinates = feature['geometry']['coordinates'] as List<dynamic>;
+        final List<LatLng> points = coordinates
+            .map((coordinate) => LatLng(coordinate[1], coordinate[0]))
+            .toList();
 
-      // デバッグ用にポイントを表示
-      print("Polyline Points: $points");
+        // デバッグ用にポイントを表示
+        print("Polyline Points: $points");
 
-      if (points.isNotEmpty) {
-        polylines.add(
-          Polyline(
-            polylineId: PolylineId('polyline_$i'), // 一意のIDを使用
-            points: points,
-            color: Colors.blue,
-            width: 5,
-            zIndex: 0, // Polylineを背面に設定
-          ),
-        );
+        if (points.isNotEmpty) {
+          polylines.add(
+            Polyline(
+              polylineId: PolylineId('polyline_$i'), // 一意のIDを使用
+              points: points,
+              color: Colors.blue,
+              width: 5,
+              zIndex: 0, // Polylineを背面に設定
+            ),
+          );
+        }
       }
     }
-  }
     return polylines;
   }
 
@@ -174,45 +188,45 @@ class _TourMaker extends State<TourMaker> {
         backgroundColor: const Color.fromRGBO(0, 98, 83, 1), // AppBarの背景色を変更
       ),
       body: Column(
-      children: [
-        // 少し下に移動させるための余白を追加
-        Container(
-          width: double.infinity, // 横幅を画面全体に設定
-          color: const Color.fromRGBO(0, 98, 83, 1), // 背景色を変更
-          padding: const EdgeInsets.symmetric(vertical: 6.0), // 上下の余白
-          child: Center(
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 80.0),
-              decoration: BoxDecoration(
-                color: const Color.fromRGBO(166, 202, 236, 1), // 内部背景色
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: Text(
-                widget.title,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+        children: [
+          // 少し下に移動させるための余白を追加
+          Container(
+            width: double.infinity, // 横幅を画面全体に設定
+            color: const Color.fromRGBO(0, 98, 83, 1), // 背景色を変更
+            padding: const EdgeInsets.symmetric(vertical: 6.0), // 上下の余白
+            child: Center(
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 80.0),
+                decoration: BoxDecoration(
+                  color: const Color.fromRGBO(166, 202, 236, 1), // 内部背景色
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Text(
+                  widget.title,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        Expanded(
-          child: GoogleMap(
-            onMapCreated: _onMapCreated,
-            mapType: MapType.hybrid,
-            markers: _markers..addAll(_currentLocationMarker != null ? {_currentLocationMarker!} : {}),
-            polylines: _polylines..addAll(_polylines),
-            initialCameraPosition: CameraPosition(
-              target: _markers.first.position,
-              zoom: 19.0,
-              bearing: 180,
+          Expanded(
+            child: GoogleMap(
+              onMapCreated: _onMapCreated,
+              mapType: MapType.hybrid,
+              markers: _markers..addAll(_currentLocationMarker != null ? {_currentLocationMarker!} : {}),
+              polylines: _polylines..addAll(_polylines),
+              initialCameraPosition: CameraPosition(
+                target: _markers.first.position,
+                zoom: 19.0,
+                bearing: 180,
+              ),
             ),
           ),
-        ),
-      ],
-    ),
+        ],
+      ),
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min, // 必要最小限の高さに設定
         children: [
