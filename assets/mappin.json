@@ -1,110 +1,149 @@
 {
-    "type": "FeatureCollection",
-    "features": [
-      {
-        "type": "Feature",
-        "properties": {"title": "正門"},
-        "geometry": {
-          "coordinates": [
-            139.6344741077868,
-            35.66332220743395
-          ],
-          "type": "Point"
-        },
-        "id": 0
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "正門",
+        "description": "日本大学文理学部の正門！キャンパスの入口！！！",
+        "hours": "月〜土 7:00 - 22:00, 日 終日入構不可"
       },
-      {
-        "type": "Feature",
-        "properties": {"title": "日本大学文理学部図書館"},
-        "geometry": {
-          "coordinates": [
-            139.63561477732668,
-            35.66312826620009
-          ],
-          "type": "Point"
-        },
-        "id": 2
+      "geometry": {
+        "coordinates": [
+          139.6344741077868,
+          35.66332220743395
+        ],
+        "type": "Point"
       },
-      {
-        "type": "Feature",
-        "properties": {"title": "ファミリーマート日本大学文理学部店"},
-        "geometry": {
-          "coordinates": [
-            139.6352214998018,
-            35.66247324836432
-          ],
-          "type": "Point"
-        },
-        "id": 4
-      },{
-        "type": "Feature",
-        "properties": {"title": "桜門書店"},
-        "geometry": {
-          "coordinates": [
-            139.63520741830177,
-            35.662367049119
-          ],
-          "type": "Point"
-        },
-        "id": 6
+      "id": 0
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "日本大学文理学部図書館",
+        "description": "大学内の図書館！様々な資料が揃っています！！！",
+        "hours": "月〜土 9:00 - 20:00, 日 休館"
       },
-      {
-        "type": "Feature",
-        "properties": {"title": "食堂秋桜"},
-        "geometry": {
-          "coordinates": [
-            139.63517153387693,
-            35.6620714489932
-          ],
-          "type": "Point"
-        },
-        "id": 8
+      "geometry": {
+        "coordinates": [
+          139.63561477732668,
+          35.66312826620009
+        ],
+        "type": "Point"
       },
-      {
-        "type": "Feature",
-        "properties": {"title": "冨士房インターナショナル"},
-        "geometry": {
-          "coordinates": [
-            139.63497673206132,
-            35.66216426192224
-          ],
-          "type": "Point"
-        },
-        "id": 10
+      "id": 2
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "ファミリーマート日本大学文理学部店",
+        "description": "キャンパス内にあるコンビニ！お酒とたばこは置いてないよ！！！",
+        "hours": "終日 8:00 - 19:00（インターネット情報曰く）"
       },
-      {
-        "type": "Feature",
-        "properties": {"title": "ラーニング・コモンズ"},
-        "geometry": {
-          "coordinates": [
-            139.63473142683483,
-            35.661990359992885
-          ],
-          "type": "Point"
-        }
+      "geometry": {
+        "coordinates": [
+          139.6352214998018,
+          35.66247324836432
+        ],
+        "type": "Point"
       },
-      {
-        "type": "Feature",
-        "properties": {"title": "情報科学科事務室"},
-        "geometry": {
-          "coordinates": [
-            139.63321231435168,
-            35.66122102009224
-          ],
-          "type": "Point"
-        },
-        "id": 10
+      "id": 4
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "桜門書店",
+        "description": "キャンパス内にある書店！学術書や参考書が豊富！！！",
+        "hours": "土〜日 8:30 - 18:00, 月～金 営業時間外（インターネット情報曰く）"
       },
-      {
-        "type": "Feature",
-        "properties": {"title": "計算機室"},
-        "geometry": {
-          "coordinates": [
-            139.6332161181976,
-            35.66116519946675
-          ],
-          "type": "Point"
-        }
-      }
-    ]
-  }
+      "geometry": {
+        "coordinates": [
+          139.63520741830177,
+          35.662367049119
+        ],
+        "type": "Point"
+      },
+      "id": 6
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "食堂秋桜",
+        "description": "学生食堂！恐らく安くておいしい！！！",
+        "hours": "月〜土 11:00 - 19:00, 日 営業時間外"
+      },
+      "geometry": {
+        "coordinates": [
+          139.63517153387693,
+          35.6620714489932
+        ],
+        "type": "Point"
+      },
+      "id": 8
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "冨士房インターナショナル",
+        "description": "多分文房具屋さん！消しゴムが安かった！！！",
+        "hours": "終日 8:30 - 18:00（インターネット情報曰く）"
+      },
+      "geometry": {
+        "coordinates": [
+          139.63497673206132,
+          35.66216426192224
+        ],
+        "type": "Point"
+      },
+      "id": 10
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "ラーニング・コモンズ",
+        "description": "学生向けの学習スペース！たまに変なイベントが行われる！！！",
+        "hours": "月〜土 9:00 - 18:00（多分）, 日 閉室"
+      },
+      "geometry": {
+        "coordinates": [
+          139.63473142683483,
+          35.661990359992885
+        ],
+        "type": "Point"
+      },
+      "id": 12
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "情報科学科事務室",
+        "description": "情報科学科の事務室！部屋に入るときはちょっと緊張する！！！",
+        "hours": "月〜土 ??:?? - ??:??（しらん）, 日 閉室"
+      },
+      "geometry": {
+        "coordinates": [
+          139.63321231435168,
+          35.66122102009224
+        ],
+        "type": "Point"
+      },
+      "id": 14
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "計算機室",
+        "description": "情報科学科の代表的な教室！モニター3台もいらん！！！",
+        "hours": "月〜土 9:00 - 18:00（しらん）, 日 閉室"
+      },
+      "geometry": {
+        "coordinates": [
+          139.6332161181976,
+          35.66116519946675
+        ],
+        "type": "Point"
+      },
+      "id": 16
+    }
+  ]
+}
