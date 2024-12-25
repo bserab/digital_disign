@@ -221,6 +221,7 @@ void navigateToPage(BuildContext context, String title,int id) {
       builder: (context) => TourMaker(
         title: title, // 取得したタイトルを渡す
         id: id,
+        courseList: courseTitles[id],
       ),
     ),
   );

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert'; // JSONデコード用
@@ -12,8 +14,9 @@ import 'root_maker.dart';
 class TourMaker extends StatefulWidget {
   final String title;
   final int id;
+  final List<String> courseList;
 
-  const TourMaker({required this.title,required this.id,  Key? key}) : super(key: key);
+  const TourMaker({required this.title,required this.id, required this.courseList, Key? key}) : super(key: key);
   @override
   _TourMaker createState() => _TourMaker();
 }
@@ -24,7 +27,9 @@ class _TourMaker extends State<TourMaker> {
   late GoogleMapController mapController;
   final LatLng _center = const LatLng(35.66216793880571, 139.63427019724344);
 
-  final List<String> json_path = ["assets/highschool.json","assets/info.json"];
+  final List<String> jsonPath = ["assets/highschool.json","assets/info.json"];
+  List<LatLng> tourPosition = [];
+  int tourNum = 0;
 
   Set<Marker> _markers = {};
   Set<Polyline> _polylines = {};
@@ -69,7 +74,7 @@ class _TourMaker extends State<TourMaker> {
   // GeoJSONデータを読み込む
   Future<void> _loadGeoJson() async {
     try {
-      final String geoJsonString = await rootBundle.loadString(json_path[widget.id]);
+      final String geoJsonString = await rootBundle.loadString(jsonPath[widget.id]);
       final Map<String, dynamic> geoJson = json.decode(geoJsonString);
 
       final markers = _extractMarkers(geoJson);
@@ -92,6 +97,7 @@ class _TourMaker extends State<TourMaker> {
     for (final feature in features) {
       if (feature['geometry']['type'] == 'Point') {
         final coordinates = feature['geometry']['coordinates'] as List<dynamic>;
+        tourPosition.add(LatLng(coordinates[1], coordinates[0]));
         final properties = feature['properties'];
 
         // ここでjsonファイルに格納されている施設情報を取得するよ
@@ -173,6 +179,16 @@ class _TourMaker extends State<TourMaker> {
     _locationSubscription.cancel(); // 位置情報の監視を停止
     super.dispose();
   }
+  void _onNextButtonPressed() {
+    
+    setState(() {
+      tourNum = (tourNum + 1) % widget.courseList.length; // 次の目的地に移動
+    });
+    mapController.animateCamera(CameraUpdate.newLatLng(
+      tourPosition.elementAt(tourNum)
+    ));
+    print(widget.courseList[tourNum]);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -225,6 +241,43 @@ class _TourMaker extends State<TourMaker> {
               ),
             ),
           ),
+          Container(
+          padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 16.0),
+          color: Colors.white,
+          child: Row(
+            children: [
+              if (tourNum != 0)
+              SizedBox(
+                width: 70, // ボタンの横幅を固定
+                child: Text(
+                  '${tourNum == 0 ? "" : "目的地:"}',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  '${widget.courseList[tourNum]}',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 100, // ボタンの横幅を固定
+                child: RoundedButton(
+                  label: '次へ',
+                  onPressed: _onNextButtonPressed,
+                ),
+              ),
+            ],
+          ),
+        ),
         ],
       ),
       bottomNavigationBar: Column(
