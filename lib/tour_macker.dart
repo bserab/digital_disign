@@ -199,6 +199,7 @@ class _TourMaker extends State<TourMaker> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white), 
         title: const Text(
           "キャンパスツアー",
           style: TextStyle(
