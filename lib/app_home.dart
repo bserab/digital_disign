@@ -227,21 +227,6 @@ class _AppHomeState extends State<AppHome> {
               ),
             ),
           ),
-          // 検索バーを下部に配置
-          Container(
-            color: Colors.white, // 背景を白に設定
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: InputDecoration(
-                labelText: '検索', // ラベル
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-              ),
-            ),
-          ),
         ],
       ),
       bottomNavigationBar: Column(

@@ -52,6 +52,7 @@ class _CourseMakerState extends State<CourseMaker> {
   return Scaffold(
     resizeToAvoidBottomInset: true,
     appBar: AppBar(
+      iconTheme: IconThemeData(color: Colors.white), 
       title: const Text(
         "キャンパスツアー",
         style: TextStyle(

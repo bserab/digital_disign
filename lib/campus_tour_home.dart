@@ -31,6 +31,7 @@ class _CampusTourHomeState extends State<CampusTourHome> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white), 
         title: const Text(
           "キャンパスツアー",
           style: TextStyle(
