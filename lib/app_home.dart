@@ -126,11 +126,12 @@ class _AppHomeState extends State<AppHome> {
 
         // ここでjsonファイルに格納されている施設情報を取得するよ
         final title = properties['title'] ?? '施設名なし';
-        final description = properties['description'] ?? '詳細情報なし';
         final hours = properties['hours'] ?? '営業時間情報なし';
+        final description = properties['description'] ?? '詳細情報なし';
 
         // infoSnippetにdescriptionとhoursを結合するよ
-        final infoSnippet = '$description<br>$hours';
+        final infoSnippet = '${hours.replaceAll(RegExp(r'\r?\n'), '<br>')}<br>${description.replaceAll(RegExp(r'\r?\n'), '<br>')}';
+
 
         // マーカーを作成してInfoWindowにぶち込むよ
         markers.add(
