@@ -27,4 +27,23 @@
 
 ## アプリケーションの使用方法
 
-1. 
+1. アプリケーションを起動すると次の画面が表示される．この画面がホーム画面に値する．
+![01](https://github.com/user-attachments/assets/eb9583bb-0b67-4623-9105-4fe4e8157aec)
+
+2. 写真下部のキャンパスツアーをクリックすると次の画面に遷移する．この画面では用意されたキャンパスツアー一覧が表示される．
+![03](https://github.com/user-attachments/assets/481434ca-cff4-4611-9518-b5ccdb90591c)
+
+3. 希望するツアーを選択すると次の画面に遷移する．この画面では選択したツアーで案内する施設一覧が表示される．（今回の例では「高校生：学校見学」を選択している．）
+![04](https://github.com/user-attachments/assets/6bcf9462-1a93-4253-8a75-0a57ccc51062)
+
+4. ツアーを開始するボタンをクリックすると次の画面に遷移する．この画面では選択したツアーに含まれている施設を案内するための道が表示される．
+![05](https://github.com/user-attachments/assets/da202a81-3dfa-428f-80d8-fda4026e2f9f)
+
+5. 画面右下の次へボタンをクリックすると，次の施設が案内される．
+![06](https://github.com/user-attachments/assets/f4e9a444-90cd-4e4c-81c5-a6ed6a93ae25)
+
+6. 画面右上の3本線アイコンをクリックすると，ツアーで案内される施設一覧を確認できる．
+![07](https://github.com/user-attachments/assets/17967bb6-ab9e-4a67-a2fb-1889ed9215d7)
+
+7. マップ上のピンをクリックすると，その施設情報を確認することができる．
+![02](https://github.com/user-attachments/assets/bbaa6aca-4b9d-41e7-b2bf-6eefbe36534f)
