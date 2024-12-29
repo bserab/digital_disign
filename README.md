@@ -1,28 +1,30 @@
-# アプリケーションの使用方法について
+# アプリケーションのつかいかた・。・
 
 
-**アプリケーションの概要**
+
+## アプリケーションの概要
 
 本作品は，大学に馴染みのない人・不慣れな人の支援を目的とした移動支援アプリケーションである．
-具体的には，日本大学文理学部のオープンキャンパスに参加する人・新入生などを対象としたアプリケーションである．
-本アプリケーションではユーザ層やユーザの目的に応じて施設などを順次案内する機能を実装している．
+具体的には，日本大学文理学部のオープンキャンパスに参加する人・新入生などを対象としている．
+本アプリケーションでは，ユーザ層やユーザの目的に応じて施設などを順次案内する機能を実装している．
 例えば，大学に不慣れなユーザはどこの施設から見学するか迷うことがあるだろう．
-そのような悩みを解消するために，アプリケーションがユーザの目的に応じたルートを案内する仕組みとなっている．
+そのような悩みを解消するために，本アプリケーションがユーザの目的に応じたルートを案内する仕組みとなっている．
 この機能により，ユーザは効率的に自身の求める情報を得ることができる．
 以上が本アプリケーションの概要である．
 
 
-## アプリケーションの使い方
 
-アプリケーションは以下の流れに沿って使用する．
+## アプリケーションの実行方法
 
-1. 本GitHubページに格納されているプログラム一式をダウンロードする
-2. 後で
-3. あああああああああああ
+1. 本GitHubページに格納されているプログラム一式をダウンロードする．
+2. プロジェクトのルートディレクトリに .env ファイルを作成する．
+3. 作成した .env ファイルに以下の形式でGoogle Maps APIキーを設定する．
+   - API_KEY="あなたのAPIキー"
+   - [APIキーの取得方法](https://www.softmachine.jp/blog/2024/02/%E3%80%90%E6%84%8F%E5%A4%96%E3%81%A8%E7%B0%A1%E5%8D%98%E3%80%91google-maps-api%E3%82%AD%E3%83%BC%E3%81%AE%E5%8F%96%E5%BE%97%E3%83%BB%E5%B0%8E%E5%85%A5%E3%80%90api%E3%82%AD%E3%83%BC%E3%81%AE%E5%8F%96/)
+4. 使用している開発環境（例: Android Studio, Xcode）でプロジェクトを開き， main.dart ファイルを実行する．
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## アプリケーションの使用方法
+
+1. 
