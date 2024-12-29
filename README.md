@@ -47,3 +47,6 @@
 
 7. マップ上のピンをクリックすると，その施設情報を確認することができる．
 ![02](https://github.com/user-attachments/assets/bbaa6aca-4b9d-41e7-b2bf-6eefbe36534f)
+
+
+これであなたも日大マスターだ！
